@@ -21,6 +21,7 @@ bool Game::Initialize() {
 
   renderer = SDL_CreateRenderer(window, -1, flags);
 
+  start_ticks = 0;
   is_running = true;
 
   return true;
@@ -28,19 +29,10 @@ bool Game::Initialize() {
 
 void Game::RunGameLoop() {
   while (is_running) {
-    while (SDL_PollEvent(&event)) {
-      if (event.type == SDL_QUIT) is_running = false;
-    }
-
-    // Get keyboard state
-    const Uint8* state = SDL_GetKeyboardState(NULL);
-    if (state[SDL_SCANCODE_ESCAPE]) is_running = false; // Quit by Escape key
-
-    // Render
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    SDL_RenderPresent(renderer);
+    EventProcess();
+    KeyInputProcess();
+    RenderingProcess();
+    ManageFrameRate();
   }
 }
 
@@ -48,4 +40,38 @@ void Game::Shutdown() {
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
   SDL_Quit();
+}
+
+// Private
+// ==================================================
+
+void Game::EventProcess() {
+  SDL_Event event;
+  while (SDL_PollEvent(&event)) {
+    if (event.type == SDL_QUIT) is_running = false;
+  }
+}
+
+void Game::KeyInputProcess() {
+  const Uint8* state = SDL_GetKeyboardState(NULL);
+  if (state[SDL_SCANCODE_ESCAPE]) is_running = false; // Quit by Escape key
+}
+
+void Game::RenderingProcess() {
+  SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+  SDL_RenderClear(renderer);
+  SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+  SDL_RenderPresent(renderer);
+}
+
+void Game::ManageFrameRate() {
+  // ref: https://wiki.libsdl.org/SDL_TICKS_PASSED
+  while (!SDL_TICKS_PASSED(SDL_GetTicks(), start_ticks + 16))
+    ;
+
+  // ref: https://thenumbat.github.io/cpp-course/sdl2/08/08.html
+  Uint32 end_ticks = SDL_GetTicks();
+  float delta_time = (end_ticks - start_ticks) / 1000.0f;
+  if (delta_time > 0.05f) delta_time = 0.05f;
+  start_ticks = SDL_GetTicks();
 }

@@ -9,8 +9,13 @@ public:
   void Shutdown();
 
 private:
+  void EventProcess();
+  void KeyInputProcess();
+  void RenderingProcess();
+  void ManageFrameRate();
+
   SDL_Window* window;
   SDL_Renderer* renderer;
-  SDL_Event event;
   bool is_running;
+  Uint32 start_ticks;
 };

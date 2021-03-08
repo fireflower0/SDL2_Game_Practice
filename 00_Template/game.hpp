@@ -20,4 +20,9 @@ private:
   SDL_Renderer* renderer;
   bool is_running;
   Uint32 start_ticks;
+
+  const static int X_POS = 100;
+  const static int Y_POS = 100;
+  const static int WIN_WIDTH = 1024;
+  const static int WIN_HEIGHT = 768;
 };

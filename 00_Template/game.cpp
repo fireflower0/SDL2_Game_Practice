@@ -10,7 +10,7 @@ bool Game::Initialize() {
     return false;
   }
 
-  window = SDL_CreateWindow("hello", 100, 100, 1024, 768, 0);
+  window = SDL_CreateWindow("hello", X_POS, Y_POS, WIN_WIDTH, WIN_HEIGHT, 0);
 
   if (!window) {
     SDL_Log("Error: %s", SDL_GetError());

@@ -31,8 +31,8 @@ void Game::RunGameLoop() {
   while (is_running) {
     EventProcess();
     KeyInputProcess();
-    RenderingProcess();
     ManageFrameRate();
+    RenderingProcess();
   }
 }
 
@@ -61,6 +61,9 @@ void Game::RenderingProcess() {
   SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
   SDL_RenderClear(renderer);
   SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+  // ...
+
   SDL_RenderPresent(renderer);
 }
 

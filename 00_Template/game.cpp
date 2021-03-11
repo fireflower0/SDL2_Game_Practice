@@ -32,6 +32,7 @@ void Game::RunGameLoop() {
     EventProcess();
     KeyInputProcess();
     ManageFrameRate();
+    UpdateGame();
     RenderingProcess();
   }
 }
@@ -78,3 +79,5 @@ void Game::ManageFrameRate() {
   if (delta_time > 0.05f) delta_time = 0.05f;
   start_ticks = SDL_GetTicks();
 }
+
+void Game::UpdateGame() {}

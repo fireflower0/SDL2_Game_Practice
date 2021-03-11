@@ -15,6 +15,7 @@ private:
   void KeyInputProcess();
   void RenderingProcess();
   void ManageFrameRate();
+  void UpdateGame();
 
   SDL_Window* window;
   SDL_Renderer* renderer;

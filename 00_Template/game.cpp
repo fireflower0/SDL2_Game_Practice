@@ -21,6 +21,11 @@ bool Game::Initialize() {
 
   renderer = SDL_CreateRenderer(window, -1, flags);
 
+  if (!renderer) {
+    SDL_Log("Failed to create renderer: %s", SDL_GetError());
+    return false;
+  }
+
   start_ticks = 0;
   is_running = true;
 
